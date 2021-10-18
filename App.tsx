@@ -1,9 +1,9 @@
 import React from "react";
-import HomeScreen from "./src/screens/home";
+import Drawer from "./src/navigations/DrawerNavigator";
 
 const App = () => {
   return (
-    <HomeScreen/>
+    <Drawer/>
   );
 };
 
