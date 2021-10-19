@@ -4,7 +4,7 @@ import {SafeAreaView, Text, StyleSheet} from 'react-native';
 const Home = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <Text>INSTAMINT - HOME</Text>
+      <Text>INSTAMINT - REGISTER</Text>
     </SafeAreaView>
   );
 };
