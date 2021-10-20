@@ -1,51 +1,111 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, View, TouchableOpacity} from 'react-native';
-import {TextInput, Text, Button} from 'react-native-paper';
-import { NavigationProp } from "@react-navigation/native";
+import {
+  SafeAreaView,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Keyboard,
+  TouchableWithoutFeedback,
+  Alert,
+} from 'react-native';
+import { Text, Button} from 'react-native-paper';
+import {NavigationProp} from '@react-navigation/native';
+import {Formik} from 'formik';
+import * as Yup from "yup";
+import {REGISTER, DRAWER_NAVIGATOR} from '../navigations/screens';
+import {User} from '../types';
+import {login} from '../api/authentication';
+import {Logo, OneLine, Link} from '../components/atoms';
+import {LabelInputText} from '../components/molecules';
+
 
 type Props = {
-    navigation: NavigationProp<any, string, any, any>
-}
+  navigation: NavigationProp<any, string, any, any>;
+};
 
-const Home:React.FC<Props> = ({ navigation }) => {
-  const onRegisterPress = () => {navigation.navigate("register")};
+const Home: React.FC<Props> = ({navigation}) => {
+  //Form initial value
+  const initialValues: User = {
+    username: '',
+    password: '',
+  }
+
+  //Validation schema
+  const LoginSchema = Yup.object().shape({
+    username: Yup.string()
+              .required('*Required'),
+    password: Yup.string()
+              .required('*Required')
+  })
+
+  const onRegisterPress = () => {
+    //Go to sign up screen
+    navigation.navigate(REGISTER);
+  };
+
+  //Submit form
+  const onSubmit = async (user: User) => {
+    try {
+      //request login
+      const response = await login(user);
+
+      if (response.data.token) {
+        //is it valid? go to dashboard
+        navigation.navigate(DRAWER_NAVIGATOR);
+      }
+    } catch (error) {
+      Alert.alert('User unauthorized');
+    }
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <View style={styles.container}>
-        <View style={styles.row}>
-          <Text style={styles.inputLabel}>{'Username'}</Text>
-          <View style={styles.inputContainer}>
-            <TextInput mode={'outlined'} style={styles.input} />
-          </View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          <Logo />
+          <Formik
+            initialValues={initialValues}
+            validationSchema={LoginSchema}
+            onSubmit={onSubmit}>
+
+            {({handleSubmit, handleBlur, handleChange, values, errors, touched}) => (
+              <>
+                <LabelInputText
+                  label={'Username'}
+                  autoFocus={true}
+                  onChangeText={handleChange('username')}
+                  onBlur={handleBlur('username')}
+                  value={values.username}
+                  autoCapitalize={'none'}
+                  error={errors.username && touched.username ? errors.username : ''}
+                />
+                <LabelInputText
+                  label={'Password'}
+                  onChangeText={handleChange('password')}
+                  onBlur={handleBlur('password')}
+                  value={values.password}
+                  secureTextEntry={true}
+                  autoCapitalize={'none'}
+                  error={errors.password && touched.password ? errors.password : ''}
+                />
+
+                <View style={styles.bottonContainer}>
+                  <Button icon="login" mode="contained" onPress={handleSubmit}>
+                    Login
+                  </Button>
+                </View>
+
+                <OneLine>
+                  <Text>Don't have an account? </Text>
+                  <Link text={"Register"} onPress={onRegisterPress} />
+                  <Text> here</Text>
+                </OneLine>
+
+              </>
+            )}
+          </Formik>
         </View>
-        <View style={styles.row}>
-          <Text style={styles.inputLabel}>{'Password'}</Text>
-          <View style={styles.inputContainer}>
-            <TextInput mode={'outlined'} style={styles.input} />
-          </View>
-        </View>
-        <View style={{alignSelf: 'flex-end'}}>
-          <Button
-            icon="login"
-            mode="contained"
-            onPress={() => console.log('Pressed')}>
-            Login
-          </Button>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            paddingTop: 30,
-          }}>
-          <Text>Don't have an account? </Text>
-          <TouchableOpacity onPress={onRegisterPress}>
-            <Text>Register</Text>
-          </TouchableOpacity>
-          <Text> here</Text>
-        </View>
-      </View>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 };
@@ -56,29 +116,14 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    padding: 20,
+    paddingHorizontal: 20,
   },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    marginBottom: 20,
-    justifyContent: 'space-between',
-  },
-  inputContainer: {
-    flex: 1,
-  },
-  input: {
-    height: 40,
-    borderRadius: 15,
-  },
-  inputLabel: {
-    fontSize: 17,
-    marginRight: 10,
-    width: 85,
-    marginBottom: 5,
-  },
+  bottonContainer: {
+    alignSelf: 'flex-end', 
+    marginBottom: 30
+  }
 });
 
 export default Home;
