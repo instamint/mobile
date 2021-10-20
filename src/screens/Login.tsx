@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -11,17 +11,22 @@ import {Text, Button} from 'react-native-paper';
 import {NavigationProp} from '@react-navigation/native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
+import {useDispatch} from 'react-redux';
+import {storeSessionInMemory} from '../redux/reducers/session';
 import {REGISTER, DRAWER_NAVIGATOR} from '../navigations/screens';
-import {User} from '../types';
+import {User, UserSession} from '../types';
 import {login} from '../api/authentication';
 import {Logo, OneLine, Link} from '../components/atoms';
 import {LabelInputText} from '../components/molecules';
+import * as userSessionStorage from '../storage/userSession';
 
 type Props = {
   navigation: NavigationProp<any, string, any, any>;
 };
 
 const Home: React.FC<Props> = ({navigation}) => {
+  const dispatch = useDispatch();
+
   //Form initial value
   const initialValues: User = {
     username: '',
@@ -46,12 +51,23 @@ const Home: React.FC<Props> = ({navigation}) => {
       const response = await login(user);
 
       if (response.data.token) {
-        //is it valid? go to dashboard
+        //Store session in disk
+        let session: UserSession = {...response.data, username: user.username};
+        await storeUserSession(session);
+
+        //Store in Redux
+        dispatch(storeSessionInMemory(session));
+
+        //Go to home
         navigation.navigate(DRAWER_NAVIGATOR);
       }
     } catch (error) {
       Alert.alert('User unauthorized');
     }
+  };
+
+  const storeUserSession = async (session: UserSession) => {
+    await userSessionStorage.save(session);
   };
 
   return (
@@ -101,9 +117,9 @@ const Home: React.FC<Props> = ({navigation}) => {
                 </View>
 
                 <OneLine>
-                  <Text>Don't have an account? </Text>
+                  <Text style={{ fontSize: 17 }}>Don't have an account? </Text>
                   <Link text={'Register'} onPress={onRegisterPress} />
-                  <Text> here</Text>
+                  <Text style={{ fontSize: 17 }}> here</Text>
                 </OneLine>
               </>
             )}

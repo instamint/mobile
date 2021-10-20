@@ -1,20 +1,23 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import RootNavigator from "./src/navigations/RootNavigator";
 import { Provider as PaperProvider } from "react-native-paper";
 import { AppRegistry } from 'react-native';
 import { name as appName } from './app.json';
-import SplashScreen from  "react-native-splash-screen";
-//import theme from "./src/theme";
+import SplashScreen from "react-native-splash-screen";
+import { Provider } from 'react-redux';
+import { store } from './src/redux/store';
 
 const App = () => {
-  useEffect(()=>{
+  useEffect(() => {
     SplashScreen.hide()
-  },[])
+  }, [])
 
   return (
-    <PaperProvider>
-      <RootNavigator/>
-    </PaperProvider>
+    <Provider store={store}>
+      <PaperProvider>
+        <RootNavigator />
+      </PaperProvider>
+    </Provider>
   );
 };
 

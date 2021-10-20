@@ -4,7 +4,7 @@ import {Image, StyleSheet} from 'react-native';
  const Logo: React.FC = () => (
   <Image
     style={styles.image}
-    source={require('../../assets/instamint-logo-transparent.png')}
+    source={require('../../../assets/instamint-logo-transparent.png')}
   />
 );
 

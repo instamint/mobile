@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {User, LoginResponse} from '../types';
+import {User, UserSession} from '../types';
 import {getFullPath} from '../helpers/apiHelper';
 
 const LOGIN_PATH = '/api/auth/login';
@@ -12,6 +12,6 @@ export const login = async (user: User) => {
     password: user.password,
   };
 
-  const response = await axios.post<LoginResponse>(url, data);
+  const response = await axios.post<UserSession>(url, data);
   return response;
 };
