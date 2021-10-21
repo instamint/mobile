@@ -5,7 +5,7 @@ import { TableTitle } from "../components/molecules";
 
 const optionsPerPage = [2, 3, 4];
 
-const Dashboard = () => {
+const Market = () => {
   const [page, setPage] = React.useState<number>(0);
   const [itemsPerPage, setItemsPerPage] = React.useState(optionsPerPage[0]);
 
@@ -15,7 +15,7 @@ const Dashboard = () => {
 
   return (
     <SafeAreaView>
-      <TableTitle>Featured NFTs</TableTitle>
+      <TableTitle>Open Market</TableTitle>
       <DataTable >
         <DataTable.Header>
           <DataTable.Title>Creator</DataTable.Title>
@@ -46,7 +46,7 @@ const Dashboard = () => {
           optionsLabel={'Rows per page'}
         />
       </DataTable>
-      <TableTitle>Trending NFTs</TableTitle>
+      <TableTitle>Latest Mints</TableTitle>
       <DataTable>
         <DataTable.Header>
           <DataTable.Title>Creator</DataTable.Title>
@@ -86,4 +86,4 @@ const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
 });
 
-export default Dashboard;
+export default Market;

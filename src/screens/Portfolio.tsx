@@ -5,7 +5,7 @@ import { TableTitle } from "../components/molecules";
 
 const optionsPerPage = [2, 3, 4];
 
-const Dashboard = () => {
+const Portfolio = () => {
   const [page, setPage] = React.useState<number>(0);
   const [itemsPerPage, setItemsPerPage] = React.useState(optionsPerPage[0]);
 
@@ -15,7 +15,7 @@ const Dashboard = () => {
 
   return (
     <SafeAreaView>
-      <TableTitle>Featured NFTs</TableTitle>
+      <TableTitle>Holdings</TableTitle>
       <DataTable >
         <DataTable.Header>
           <DataTable.Title>Creator</DataTable.Title>
@@ -46,22 +46,20 @@ const Dashboard = () => {
           optionsLabel={'Rows per page'}
         />
       </DataTable>
-      <TableTitle>Trending NFTs</TableTitle>
+      <TableTitle>Trades</TableTitle>
       <DataTable>
         <DataTable.Header>
-          <DataTable.Title>Creator</DataTable.Title>
-          <DataTable.Title>Owner</DataTable.Title>
-          <DataTable.Title>NFT</DataTable.Title>
-          <DataTable.Title>Mint Date</DataTable.Title>
-          <DataTable.Title>Vintage Date</DataTable.Title>
+          <DataTable.Title>Buyer</DataTable.Title>
+          <DataTable.Title>Seller</DataTable.Title>
+          <DataTable.Title>Date/Time,</DataTable.Title>
+          <DataTable.Title>Price</DataTable.Title>
         </DataTable.Header>
 
         <DataTable.Row>
           <DataTable.Cell>John</DataTable.Cell>
           <DataTable.Cell>John</DataTable.Cell>
           <DataTable.Cell>NFT-1</DataTable.Cell>
-          <DataTable.Cell>2020-12-31</DataTable.Cell>
-          <DataTable.Cell>2020-12-31</DataTable.Cell>
+          <DataTable.Cell numeric>100.00</DataTable.Cell>
         </DataTable.Row>
         
         <DataTable.Pagination
@@ -86,4 +84,4 @@ const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
 });
 
-export default Dashboard;
+export default Portfolio;
