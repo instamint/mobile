@@ -16,7 +16,7 @@ import {storeSessionInMemory} from '../redux/reducers/session';
 import {REGISTER, DRAWER_NAVIGATOR} from '../navigations/screens';
 import {User, UserSession} from '../types';
 import {login} from '../api/authentication';
-import {Logo, OneLine, Link} from '../components/atoms';
+import {Logo, OneLine, Link, CustomText} from '../components/atoms';
 import {LabelInputText} from '../components/molecules';
 import * as userSessionStorage from '../storage/userSession';
 
@@ -117,9 +117,9 @@ const Home: React.FC<Props> = ({navigation}) => {
                 </View>
 
                 <OneLine>
-                  <Text style={{ fontSize: 17 }}>Don't have an account? </Text>
+                  <CustomText>Don't have an account? </CustomText>
                   <Link text={'Register'} onPress={onRegisterPress} />
-                  <Text style={{ fontSize: 17 }}> here</Text>
+                  <CustomText> here</CustomText>
                 </OneLine>
               </>
             )}

@@ -41,8 +41,7 @@ const RootStack = () => {
       <Stack.Navigator>
         {/* Authenticated */}
         {userSessionInMemory.token ? (
-          <Stack.Screen name={DRAWER_NAVIGATOR} component={HomeDrawerNavigator}
-          />
+          <Stack.Screen name={DRAWER_NAVIGATOR} component={HomeDrawerNavigator} options={{ headerShown: false }}/>
         ) : (
           <>
             <Stack.Screen name={LOGIN} component={LoginScreen} options={{ headerShown: false }} />
