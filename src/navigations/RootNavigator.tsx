@@ -11,6 +11,7 @@ import { RootState } from "../redux/store";
 //Screens
 import LoginScreen from '../screens/Login';
 import RegisterScreen from '../screens/Register';
+// import TestScreen from "../screens/Test";
 
 //Navigators
 import HomeDrawerNavigator from './DrawerNavigator';
