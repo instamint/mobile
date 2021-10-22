@@ -17,12 +17,7 @@ import {login} from '../api/authentication';
 import {Logo} from '../components/atoms';
 import {LoginForm} from "../components/organisms";
 import { showErrorAlert } from "../helpers/errorHelper";
-
 import * as userSessionStorage from '../storage/userSession';
-import { Button } from 'react-native-paper';
-// import nodejs from "nodejs-mobile-react-native";
-
-// nodejs.start("main.js");
 
 type Props = {
   navigation: NavigationProp<any, string, any, any>;
@@ -35,17 +30,6 @@ const Home: React.FC<Props> = ({navigation}) => {
     //Go to sign up screen
     navigation.navigate(REGISTER);
   };
-
-  useEffect(()=>{
-    // nodejs.start("main.js");
-    // nodejs.channel.addListener(
-    //   "message",
-    //   (msg) => {
-    //     console.log("From node: " + msg);
-    //   },
-    //   this
-    // );
-  },[])
 
   //Submit form
   const onSubmit = async (user: User) => {
@@ -69,43 +53,12 @@ const Home: React.FC<Props> = ({navigation}) => {
     }
   };
 
-  const sendtoNode = async () => {
-    // const userHashTags = "#republicadominicana"
-    // if (userHashTags) {
-    //   //const cred = await AsyncStorage.getItem("igAuth");
-    //   const cred = {username: 'jsmr04@gmail.com', password: 'Sarah01!'};
-    //   // if (!cred) {
-    //   //   alert("Please save your Instagram Credentials in your Settings!");
-    //   //   return;
-    //   // }
-    //   let userHashTagsFinal;
-    //   if (userHashTags.includes(",")) {
-    //     const userHashTagsFixed = userHashTags.split(",").map((x) => x.trim());
-    //     userHashTagsFinal = [...new Set(userHashTagsFixed)];
-    //   } else {
-    //     userHashTagsFinal = [userHashTags];
-    //   }
-    //   const data = {
-    //     content: userHashTagsFinal,
-    //     limit: Number(10),
-    //     func: "likeByMedia",
-    //     cred: cred//JSON.parse(cred)
-    //   };
-    //   const finalData = JSON.stringify(data);
-    //   nodejs.channel.send(finalData);
-    //   //setLoading(true);
-    // } else {
-    //   //alert("Please enter a hashtag or hashtags.");
-    // }
-  };
-
   const storeUserSession = async (session: UserSession) => {
     await userSessionStorage.save(session);
   };
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <Button onPress={sendtoNode} >INSTAGRAM</Button>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           <Logo />
