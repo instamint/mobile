@@ -1,27 +1,108 @@
-import React, { useEffect } from 'react';
-import { SafeAreaView, StyleSheet, Text, View, Image } from 'react-native';
+
+import React from 'react';
+import { SafeAreaView, StyleSheet, View, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 import { Button } from "react-native-paper";
+import {NavigationProp} from '@react-navigation/native';
+import { LabelInputText } from "../components/molecules";
+import { MINT_DONE } from "../navigations/screens";
 
-const optionsPerPage = [2, 3, 4];
+type Props = {
+  navigation: NavigationProp<any, string, any, any>;
+};
 
-const Mint = () => {
+const Mint: React.FC<Props> = (props) => {
+  const { navigation } = props
+
+  const initialValues = {
+    title: '',
+    description: '',
+  };
+
+  //Validation schema
+  const MintSchema = Yup.object().shape({
+    title: Yup.string().required('*Required'),
+  });
+
+  const onSubmit = () => {
+    //navigation.navigate(MINT_DONE)
+  }
+
+  const onCancel = () => {
+    navigation.goBack()
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ flexDirection: 'row', justifyContent:'space-between' }} >
-        <Image source={require('../../assets/instagram.png')} style={{ width: 75, height: 75 }}/>
-        <View style={{ justifyContent: 'center' }} >
-          <Button mode='contained' >Connect to instagram</Button>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={MintSchema}
+            onSubmit={onSubmit}>
+            {({
+              handleSubmit,
+              handleBlur,
+              handleChange,
+              values,
+              errors,
+              touched,
+            }) => (
+              <>
+                <LabelInputText
+                  label={'Title'}
+                  onChangeText={handleChange('title')}
+                  onBlur={handleBlur('title')}
+                  value={values.title}
+                  autoCapitalize={'sentences'}
+                  labelWidth={100}
+                  autoFocus={true}
+                  error={errors.title && touched.title ? errors.title : ''}
+                />
+                <LabelInputText
+                  label={'Description'}
+                  onChangeText={handleChange('description')}
+                  onBlur={handleBlur('description')}
+                  value={values.description}
+                  autoCapitalize={'sentences'}
+                  labelWidth={100}
+                  height={230}
+                  multiline={true}
+                />
+
+                <View style={styles.bottonContainer}>
+                  <Button mode="contained" style={{ marginHorizontal: 5 }} onPress={onCancel}>
+                    Cancel
+                  </Button>
+                  <Button mode="contained" style={{ marginHorizontal: 5 }} onPress={handleSubmit}>
+                    Mint
+                  </Button>
+                </View>
+              </>
+            )}
+          </Formik>
         </View>
-        
-      </View>
-      
+      </TouchableWithoutFeedback>
     </SafeAreaView>
-      
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  container: { 
+    flex: 1, 
+    justifyContent: 'flex-start', 
+    paddingHorizontal: 20,
+    paddingTop: 15
+  },
+
+  bottonContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    alignSelf: 'flex-end',
+    marginTop: 30,
+    justifyContent: 'flex-end',
+  },
 });
 
 export default Mint;

@@ -17,7 +17,7 @@ import {login} from '../api/authentication';
 import {Logo} from '../components/atoms';
 import {LoginForm} from "../components/organisms";
 import { showErrorAlert } from "../helpers/errorHelper";
-import * as userSessionStorage from '../storage/userSession';
+import * as storage from '../storage';
 
 type Props = {
   navigation: NavigationProp<any, string, any, any>;
@@ -34,6 +34,14 @@ const Home: React.FC<Props> = ({navigation}) => {
   //Submit form
   const onSubmit = async (user: User) => {
     try {
+
+      // let session: UserSession = { token: '-FAKE TOKEN-', userId: 0, username: user.username};
+      // await storeUserSession(session);
+
+      // //Store in Redux
+      // dispatch(storeSessionInMemory(session));
+      // navigation.navigate(DRAWER_NAVIGATOR);
+
       //request login
       const response = await login(user);
 
@@ -54,7 +62,7 @@ const Home: React.FC<Props> = ({navigation}) => {
   };
 
   const storeUserSession = async (session: UserSession) => {
-    await userSessionStorage.save(session);
+    await storage.save<UserSession>("session", session);
   };
 
   return (

@@ -1,20 +1,23 @@
 import React from 'react';
-import { Alert, View, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import {createDrawerNavigator, DrawerContentScrollView, DrawerItem, DrawerContentComponentProps, DrawerItemList} from '@react-navigation/drawer';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from "react-native-paper";
-import { DASHBOARD, MARKET, PORTFOLIO, MINT, ADMIN } from "./screens";
+import { DASHBOARD, MARKET, PORTFOLIO, MINT_STACK, ADMIN, GALLERY, INSTAGRAM_LOGIN } from "./screens";
 import { RootState } from "../redux/store";
 import { CustomText } from "../components/atoms";
-import * as userSessionStorage  from "../storage/userSession";
+import * as storage  from "../storage";
 import {logoutUser} from '../redux/reducers/session';
 
 //Screens
 import DashboardScreen from '../screens/Dashboard';
 import MarketScreen from '../screens/Market';
 import PortfolioScreen from '../screens/Portfolio';
-import MintScreen from '../screens/Mint';
 import AdminScreen from '../screens/Admin';
+
+//Stacks
+import MintStack from "./MintStack";
+import { UserSession } from '../types';
 
 const Drawer = createDrawerNavigator();
 
@@ -25,7 +28,7 @@ const DrawerNavigator = () => {
       <Drawer.Screen options={{ title: "Dashboard" }} name={DASHBOARD} component={DashboardScreen} />
       <Drawer.Screen options={{ title: "Market" }} name={MARKET} component={MarketScreen} />
       <Drawer.Screen options={{ title: "Portfolio" }} name={PORTFOLIO} component={PortfolioScreen} />
-      <Drawer.Screen options={{ title: "Mint Factory" }} name={MINT} component={MintScreen} />
+      <Drawer.Screen options={{ title: "Mint Factory" }} name={MINT_STACK} component={MintStack} />
       <Drawer.Screen options={{ title: "Admin" }} name={ADMIN} component={AdminScreen} />
     </Drawer.Navigator>
   );
@@ -37,7 +40,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
   const dispatch = useDispatch()
 
   const onLogoutPress = async ()=>{
-    await userSessionStorage.remove()
+    await storage.remove("session")
     dispatch(logoutUser())
   }
 

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { LOGIN, REGISTER, DRAWER_NAVIGATOR } from "./screens";
-import * as userSessionStorage from "../storage/userSession";
-import { UserSession } from "../types/userSession";
+import * as storage from "../storage";
+import { UserSession } from "../types";
 import { useDispatch, useSelector } from 'react-redux';
 import { storeSessionInMemory } from "../redux/reducers/session";
 import { RootState } from "../redux/store";
@@ -29,7 +29,7 @@ const RootStack = () => {
   //Authentication control
   const getAndStoreUserSessionInMemory = async () => {
     //Get from storage
-    const sessionString = await userSessionStorage.get()
+    const sessionString = await storage.get("session")
     if (sessionString) {
       //Store in redux
       const session: UserSession = JSON.parse(sessionString)

@@ -13,25 +13,30 @@ type Props = {
     autoFocus?: boolean,
     secureTextEntry?: boolean
     error?: string
+    multiline?: boolean
+    height?: number | string
+    labelWidth?: number | string
 }
 
  const LabelInputText: React.FC<Props> = props => {
-   const {label, onChangeText, onBlur, value, autoCapitalize, autoFocus, secureTextEntry, error} =
+   const {label, onChangeText, onBlur, value, autoCapitalize, autoFocus, secureTextEntry, error, multiline, height = 40, labelWidth = 85} =
      props;
 
    return (
        <View style={styles.row}>
-         <Text style={styles.inputLabel}>{label}</Text>
-         <View style={styles.inputContainer}>
+         <Text style={[styles.inputLabel, {width: labelWidth}]}>{label}</Text>
+         <View style={[styles.inputContainer]}>
            <TextInput
              mode={'outlined'}
-             style={styles.input}
+             style={[styles.input,{height}]}
              autoFocus={autoFocus}
              onChangeText={onChangeText}
              onBlur={onBlur}
              value={value}
              autoCapitalize={autoCapitalize}
              secureTextEntry={secureTextEntry}
+             multiline={multiline}
+             textAlignVertical={multiline ? 'top' : 'auto'}
            />
            {/* {error != undefined ? <Text style={styles.error}>{error}</Text> : null} */}
            {error != undefined && <Text style={styles.error}>{error}</Text>}
