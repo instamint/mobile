@@ -24,6 +24,8 @@ class App extends Component {
 
         //Store in local storage
         await storage.save("instagramSession", instagramSession) 
+
+        // console.log(instagramSession)
         
         //Store in memory (redux)
         this.props.storeInstagramSessionInMemory(instagramSession)

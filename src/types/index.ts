@@ -4,6 +4,8 @@ import { RegisterData } from "./register";
 import { InstagramMedia } from "./instagramMedia";
 import { InstagramMediaResponse } from "./instagramMediaResponse";
 import { InstagramSession } from "./instagramSession";
+import { MintData } from "./mintData";
+import { MintResponse } from "./mintResponse";
 
 export type {
     User,
@@ -11,5 +13,7 @@ export type {
     RegisterData,
     InstagramMedia,
     InstagramMediaResponse,
-    InstagramSession
+    InstagramSession,
+    MintData,
+    MintResponse
 }

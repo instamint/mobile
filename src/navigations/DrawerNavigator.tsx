@@ -8,6 +8,7 @@ import { RootState } from "../redux/store";
 import { CustomText } from "../components/atoms";
 import * as storage  from "../storage";
 import {logoutUser} from '../redux/reducers/session';
+import {logoutInstagramAccount} from '../redux/reducers/instagramSession';
 
 //Screens
 import DashboardScreen from '../screens/Dashboard';
@@ -40,8 +41,18 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
   const dispatch = useDispatch()
 
   const onLogoutPress = async ()=>{
-    await storage.remove("session")
-    dispatch(logoutUser())
+    try {
+      //Remove in local storage
+      await storage.remove("instagramSession")
+      await storage.remove("session")
+      
+      //Remove in redux
+      dispatch(logoutInstagramAccount())
+      dispatch(logoutUser())
+    } catch (error) {
+      console.log(error)
+    }
+
   }
 
   return (

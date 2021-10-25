@@ -1,6 +1,6 @@
-import axios from 'axios';
-import {User, UserSession, RegisterData} from '../types';
-import {getFullPath} from '../helpers/apiHelper';
+import axios from './instamintAxios';
+import {User, UserSession, RegisterData} from '../../types';
+import {getFullPath} from '../../helpers/apiHelper';
 
 const LOGIN_PATH = '/api/auth/login';
 const SIGNUP_PATH = '/api/auth/signup';

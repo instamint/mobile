@@ -4,16 +4,28 @@ import { SafeAreaView, StyleSheet, View, Keyboard, TouchableWithoutFeedback } fr
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { Button } from "react-native-paper";
-import {NavigationProp} from '@react-navigation/native';
+import {NavigationProp, RouteProp} from '@react-navigation/native';
 import { LabelInputText } from "../components/molecules";
 import { MINT_DONE } from "../navigations/screens";
+import { InstagramMedia, MintData } from "../types";
+import { processMint } from "../api/instamint/NFT";
+import { showErrorAlert } from "../helpers/errorHelper";
+
+type MintForm = {
+  title: string;
+  description?: string
+}
 
 type Props = {
+  route: RouteProp<{params: {
+    item: InstagramMedia
+  }}, 'params'>,
   navigation: NavigationProp<any, string, any, any>;
 };
 
 const Mint: React.FC<Props> = (props) => {
-  const { navigation } = props
+  const { navigation, route } = props
+  const item = route.params.item
 
   const initialValues = {
     title: '',
@@ -25,8 +37,30 @@ const Mint: React.FC<Props> = (props) => {
     title: Yup.string().required('*Required'),
   });
 
-  const onSubmit = () => {
-    //navigation.navigate(MINT_DONE)
+  const onSubmit = async (formData: MintForm) => {
+    const instaId = Number(item.id)
+
+    const data: MintData = {
+      description: formData.description || '',
+      instaId: instaId,
+      instaUrl: item.media_url,
+      instaUserName: item.username,
+      mediaType: item.media_type,
+      name: formData.title,
+      timestamp: item.timestamp,
+      title: formData.title,
+    }
+
+    //
+    console.log(data)
+
+    try {
+      const response = await processMint(data)  
+      console.log(response.data)
+      navigation.navigate(MINT_DONE)
+    } catch (error) {
+      showErrorAlert(error)
+    } 
   }
 
   const onCancel = () => {
@@ -93,7 +127,7 @@ const styles = StyleSheet.create({
     flex: 1, 
     justifyContent: 'flex-start', 
     paddingHorizontal: 20,
-    paddingTop: 15
+    paddingTop: 15,
   },
 
   bottonContainer: {

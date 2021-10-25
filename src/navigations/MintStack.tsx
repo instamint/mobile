@@ -16,6 +16,7 @@ import {storeInstagramSessionInMemory} from '../redux/reducers/instagramSession'
 import ConnectInstagramScreen from '../screens/ConnectInstagram';
 import GalleryScreen from '../screens/Gallery';
 import MintScreen from '../screens/Mint';
+import MintDoneScreen from '../screens/MintDone';
 
 const Stack = createStackNavigator();
 
@@ -49,6 +50,7 @@ const RootStack = () => {
         <>
           <Stack.Screen name={GALLERY} component={GalleryScreen} />
           <Stack.Screen name={MINT} component={MintScreen} />
+          <Stack.Screen name={MINT_DONE} component={MintDoneScreen} />
         </>
       ) : (
         <Stack.Screen name={INSTAGRAM_LOGIN} component={ConnectInstagramScreen} />

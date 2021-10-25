@@ -8,7 +8,7 @@ import {NavigationProp} from '@react-navigation/native';
 import CookieManager from '@react-native-community/cookies';
 import * as storage from '../storage';
 import { logoutInstagramAccount } from "../redux/reducers/instagramSession";
-import * as instagramApi from "../api/instagram";
+import * as instagramApi from "../api/instagram/instagram";
 import { MINT } from "../navigations/screens";
 
 type Props = {
@@ -70,12 +70,12 @@ const Gallery: React.FC<Props> = (props) => {
       }
     };
 
-    const onItemPress = ()=>{
-        navigation.navigate(MINT)
+    const onItemPress = (item: InstagramMedia)=>{
+      navigation.navigate(MINT, {item})
     }
 
     const renderItem = (item: InstagramMedia) => (
-      <TouchableOpacity style={{width: '33.33%', height: 120, padding: 5}} onPress={onItemPress}>
+      <TouchableOpacity style={{width: '33.33%', height: 120, padding: 5}} onPress={()=>onItemPress(item)}>
           <Image style={{flex: 1}} source={{uri: item.media_url}} />
       </TouchableOpacity>
     );

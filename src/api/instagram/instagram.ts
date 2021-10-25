@@ -1,7 +1,7 @@
 import axios from "axios";
-import { InstagramMedia, InstagramMediaResponse, InstagramSession } from "../types";
-import * as storage from "../storage";
-import { INSTAGRAM_API, INSTAGRAM_API_VERSION } from "../configuration";
+import { InstagramMedia, InstagramMediaResponse, InstagramSession } from "../../types";
+import * as storage from "../../storage";
+import { INSTAGRAM_API, INSTAGRAM_API_VERSION } from "../../configuration";
 
 const FIELDS = 'id,media_type,media_url,username,timestamp'
 

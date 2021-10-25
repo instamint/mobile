@@ -13,7 +13,8 @@ import {useDispatch} from 'react-redux';
 import {storeSessionInMemory} from '../redux/reducers/session';
 import {REGISTER, DRAWER_NAVIGATOR} from '../navigations/screens';
 import {User, UserSession} from '../types';
-import {login} from '../api/authentication';
+import {login} from '../api/instamint/authentication';
+import {setToken} from '../api/instamint/instamintAxios';
 import {Logo} from '../components/atoms';
 import {LoginForm} from "../components/organisms";
 import { showErrorAlert } from "../helpers/errorHelper";
@@ -49,6 +50,9 @@ const Home: React.FC<Props> = ({navigation}) => {
         //Store session in disk
         let session: UserSession = {...response.data, username: user.username};
         await storeUserSession(session);
+
+        //Set token 
+        setToken(response.data.token)
 
         //Store in Redux
         dispatch(storeSessionInMemory(session));
