@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { LOGIN, REGISTER, DRAWER_NAVIGATOR } from "./screens";
-import * as storage from "../storage";
 import { UserSession } from "../types";
 import { useDispatch, useSelector } from 'react-redux';
 import { storeSessionInMemory } from "../redux/reducers/session";
 import { RootState } from "../redux/store";
+import * as instamintSession from "../helpers/instamintSessionHelper";
 
 //Screens
 import LoginScreen from '../screens/Login';
@@ -29,7 +29,7 @@ const RootStack = () => {
   //Authentication control
   const getAndStoreUserSessionInMemory = async () => {
     //Get from storage
-    const sessionString = await storage.get("session")
+    const sessionString = await instamintSession.get()
     if (sessionString) {
       //Store in redux
       const session: UserSession = JSON.parse(sessionString)

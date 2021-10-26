@@ -1,14 +1,13 @@
 import React from 'react';
 import { View, StyleSheet } from "react-native";
 import {createDrawerNavigator, DrawerContentScrollView, DrawerItem, DrawerContentComponentProps, DrawerItemList} from '@react-navigation/drawer';
-import { useDispatch, useSelector } from 'react-redux';
+import {  useSelector } from 'react-redux';
 import { Button } from "react-native-paper";
 import { DASHBOARD, MARKET, PORTFOLIO, MINT_STACK, ADMIN, GALLERY, INSTAGRAM_LOGIN } from "./screens";
 import { RootState } from "../redux/store";
 import { CustomText } from "../components/atoms";
-import * as storage  from "../storage";
-import {logoutUser} from '../redux/reducers/session';
-import {logoutInstagramAccount} from '../redux/reducers/instagramSession';
+import * as instagramSession from "../helpers/instagramSessionHelper";
+import * as instmintSession from "../helpers/instamintSessionHelper";
 
 //Screens
 import DashboardScreen from '../screens/Dashboard';
@@ -18,7 +17,6 @@ import AdminScreen from '../screens/Admin';
 
 //Stacks
 import MintStack from "./MintStack";
-import { UserSession } from '../types';
 
 const Drawer = createDrawerNavigator();
 
@@ -38,17 +36,12 @@ const DrawerNavigator = () => {
 //Customizations
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
   const { userSession } = useSelector((state: RootState) => state.session)
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
 
   const onLogoutPress = async ()=>{
     try {
-      //Remove in local storage
-      await storage.remove("instagramSession")
-      await storage.remove("session")
-      
-      //Remove in redux
-      dispatch(logoutInstagramAccount())
-      dispatch(logoutUser())
+      await instagramSession.clear()
+      await instmintSession.clear()
     } catch (error) {
       console.log(error)
     }

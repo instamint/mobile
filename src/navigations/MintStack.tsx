@@ -8,9 +8,9 @@ import {
   MINT_DONE,
   GALLERY,
 } from './screens';
-import * as storage from '../storage';
 import {InstagramSession} from '../types';
 import {storeInstagramSessionInMemory} from '../redux/reducers/instagramSession';
+import * as instagramSession from "../helpers/instagramSessionHelper";
 
 //Screens
 import ConnectInstagramScreen from '../screens/ConnectInstagram';
@@ -33,9 +33,7 @@ const RootStack = () => {
   //Instagram Authentication control
   const getAndStoreInstagramSessionInMemory = async () => {
     //Get from storage
-    const sessionString = await storage.get('instagramSession');
-    console.log('sessionString')
-    console.log(sessionString)
+    const sessionString = await instagramSession.get()
     if (sessionString) {
       //Store in redux
       const session: InstagramSession = JSON.parse(sessionString);

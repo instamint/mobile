@@ -18,7 +18,7 @@ import {setToken} from '../api/instamint/instamintAxios';
 import {Logo} from '../components/atoms';
 import {LoginForm} from "../components/organisms";
 import { showErrorAlert } from "../helpers/errorHelper";
-import * as storage from '../storage';
+import * as instamintSession from "../helpers/instamintSessionHelper";
 
 type Props = {
   navigation: NavigationProp<any, string, any, any>;
@@ -61,12 +61,13 @@ const Home: React.FC<Props> = ({navigation}) => {
         navigation.navigate(DRAWER_NAVIGATOR);
       }
     } catch (error) {
+      console.log(error)
       showErrorAlert({message: 'User unauthorized'})
     }
   };
 
   const storeUserSession = async (session: UserSession) => {
-    await storage.save<UserSession>("session", session);
+    await instamintSession.init(session)
   };
 
   return (

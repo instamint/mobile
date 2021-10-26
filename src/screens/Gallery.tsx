@@ -1,15 +1,15 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, View, Image, FlatList, TouchableOpacity } from 'react-native';
+import { SafeAreaView, StyleSheet, Image, FlatList, TouchableOpacity } from 'react-native';
 import { Button } from "react-native-paper";
 import { useDispatch } from 'react-redux';
 import { InstagramMedia, InstagramMediaResponse } from "../types";
 import { showErrorAlert } from "../helpers/errorHelper";
 import {NavigationProp} from '@react-navigation/native';
-import CookieManager from '@react-native-community/cookies';
-import * as storage from '../storage';
-import { logoutInstagramAccount } from "../redux/reducers/instagramSession";
 import * as instagramApi from "../api/instagram/instagram";
 import { MINT } from "../navigations/screens";
+import * as instagramSession from "../helpers/instagramSessionHelper";
+
+const EXPIRED_SESSION_CODE = 190
 
 type Props = {
   navigation: NavigationProp<any, string, any, any>;
@@ -45,9 +45,15 @@ const Gallery: React.FC<Props> = (props) => {
 
           setInstagramMedia(instagramImages);
         }
-      } catch (error) {
-        console.log(error);
-        showErrorAlert({message: 'Error retrieving media from Instagram'});
+      } catch (error: any) {
+        const errorCode = error.response?.data?.error?.code
+
+        if(errorCode === EXPIRED_SESSION_CODE){
+          showErrorAlert({message: 'Session has expired'}, async ()=>logoutInstagram());
+        }else{
+          showErrorAlert({message: 'Error retrieving media from Instagram'});
+        }
+        
       }
     };
 
@@ -59,12 +65,7 @@ const Gallery: React.FC<Props> = (props) => {
 
     const logoutInstagram = async () => {
       try {
-        //Clean cookies
-        await CookieManager.clearAll(true);
-        //Remove instagram session
-        await storage.remove('instagramSession');
-        //Clean Redux
-        dispatch(logoutInstagramAccount())
+        await instagramSession.clear()
       } catch (error) {
         console.log(error);
       }
