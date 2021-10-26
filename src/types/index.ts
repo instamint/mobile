@@ -6,6 +6,7 @@ import { InstagramMediaResponse } from "./instagramMediaResponse";
 import { InstagramSession } from "./instagramSession";
 import { MintData } from "./mintData";
 import { MintResponse } from "./mintResponse";
+import { Market } from "./market";
 
 export type {
     User,
@@ -15,5 +16,6 @@ export type {
     InstagramMediaResponse,
     InstagramSession,
     MintData,
-    MintResponse
+    MintResponse,
+    Market
 }
