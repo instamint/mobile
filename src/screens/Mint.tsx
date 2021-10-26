@@ -1,20 +1,12 @@
 
 import React from 'react';
 import { SafeAreaView, StyleSheet, View, Keyboard, TouchableWithoutFeedback } from 'react-native';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
-import { Button } from "react-native-paper";
 import {NavigationProp, RouteProp} from '@react-navigation/native';
-import { LabelInputText } from "../components/molecules";
 import { MINT_DONE } from "../navigations/screens";
 import { InstagramMedia, MintData } from "../types";
 import { processMint } from "../api/instamint/NFT";
 import { showErrorAlert } from "../helpers/errorHelper";
-
-type MintForm = {
-  title: string;
-  description?: string
-}
+import { MintForm } from "../components/organisms";
 
 type Props = {
   route: RouteProp<{params: {
@@ -27,17 +19,7 @@ const Mint: React.FC<Props> = (props) => {
   const { navigation, route } = props
   const item = route.params.item
 
-  const initialValues = {
-    title: '',
-    description: '',
-  };
-
-  //Validation schema
-  const MintSchema = Yup.object().shape({
-    title: Yup.string().required('*Required'),
-  });
-
-  const onSubmit = async (formData: MintForm) => {
+  const onSubmit = async (formData: any) => {
     const instaId = Number(item.id)
 
     const data: MintData = {
@@ -50,9 +32,6 @@ const Mint: React.FC<Props> = (props) => {
       timestamp: item.timestamp,
       title: formData.title,
     }
-
-    //
-    console.log(data)
 
     try {
       const response = await processMint(data)  
@@ -71,51 +50,7 @@ const Mint: React.FC<Props> = (props) => {
     <SafeAreaView style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          <Formik
-            initialValues={initialValues}
-            validationSchema={MintSchema}
-            onSubmit={onSubmit}>
-            {({
-              handleSubmit,
-              handleBlur,
-              handleChange,
-              values,
-              errors,
-              touched,
-            }) => (
-              <>
-                <LabelInputText
-                  label={'Title'}
-                  onChangeText={handleChange('title')}
-                  onBlur={handleBlur('title')}
-                  value={values.title}
-                  autoCapitalize={'sentences'}
-                  labelWidth={100}
-                  autoFocus={true}
-                  error={errors.title && touched.title ? errors.title : ''}
-                />
-                <LabelInputText
-                  label={'Description'}
-                  onChangeText={handleChange('description')}
-                  onBlur={handleBlur('description')}
-                  value={values.description}
-                  autoCapitalize={'sentences'}
-                  labelWidth={100}
-                  height={230}
-                  multiline={true}
-                />
-
-                <View style={styles.bottonContainer}>
-                  <Button mode="contained" style={{ marginHorizontal: 5 }} onPress={onCancel}>
-                    Cancel
-                  </Button>
-                  <Button mode="contained" style={{ marginHorizontal: 5 }} onPress={handleSubmit}>
-                    Mint
-                  </Button>
-                </View>
-              </>
-            )}
-          </Formik>
+          <MintForm onSubmit={onSubmit} onCancel={onCancel} />
         </View>
       </TouchableWithoutFeedback>
     </SafeAreaView>
