@@ -16,7 +16,6 @@ const sessionSlice = createSlice({
   initialState,
   reducers: {
     storeInstagramSessionInMemory: (state, action: PayloadAction<InstagramSession>) => {
-        console.log("-UPDATE STATE-")
         console.log(action.payload)
         state.instaSession.token = action.payload.token
         state.instaSession.userId = action.payload.userId

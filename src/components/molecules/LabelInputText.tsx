@@ -1,6 +1,6 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import { TextInput, Text } from 'react-native-paper';
+import {StyleSheet, View, TextInput} from 'react-native';
+import { Text } from 'react-native-paper';
 
 //TODO: Refactor component
 
@@ -22,23 +22,32 @@ type Props = {
    const {label, onChangeText, onBlur, value, autoCapitalize, autoFocus, secureTextEntry, error, multiline, height = 40, labelWidth = 85} =
      props;
 
+     const [isFocused, setIsFocused] = React.useState(false)
+
+     const onFocusHandler = ()=>{
+      setIsFocused(true)
+     }
+
+     const onBlurHandler = ()=>{
+      setIsFocused(false)
+     }
+
    return (
        <View style={styles.row}>
          <Text style={[styles.inputLabel, {width: labelWidth}]}>{label}</Text>
          <View style={[styles.inputContainer]}>
            <TextInput
-             mode={'outlined'}
-             style={[styles.input,{height}]}
+             style={[styles.input,{height, borderColor: isFocused ? '#5829e4' : '#d8d8d8'}]}
              autoFocus={autoFocus}
              onChangeText={onChangeText}
-             onBlur={onBlur}
+             onFocus={onFocusHandler}
+             onBlur={onBlurHandler}
              value={value}
              autoCapitalize={autoCapitalize}
              secureTextEntry={secureTextEntry}
              multiline={multiline}
              textAlignVertical={multiline ? 'top' : 'auto'}
-           />
-           {/* {error != undefined ? <Text style={styles.error}>{error}</Text> : null} */}
+           />           
            {error != undefined && <Text style={styles.error}>{error}</Text>}
          </View>
        </View>
@@ -53,10 +62,16 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flex: 1,
+    marginVertical: 3
   },
   input: {
-    height: 40,
-    borderRadius: 15,
+    borderRadius: 5,
+    backgroundColor: 'white',
+    justifyContent: 'flex-start',
+    paddingVertical: 0,
+    padding: 5,
+    borderColor: 'grey',
+    borderWidth: 1,
   },
   inputLabel: {
     fontSize: 17,

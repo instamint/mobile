@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import {NavigationProp} from '@react-navigation/native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {storeSessionInMemory} from '../redux/reducers/session';
 import {REGISTER, DRAWER_NAVIGATOR} from '../navigations/screens';
 import {User, UserSession} from '../types';
