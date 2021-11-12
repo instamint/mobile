@@ -27,13 +27,7 @@ export const getImages = async () => {
         if (albums.length > 0) {
             const promises = albums.map(x => getMediaFromParent(x.id))
             const results = await Promise.all(promises)
-
-            if (results) {
-                results.forEach(x => {
-                    if (x) imagesFromAlbums = imagesFromAlbums.concat(x)
-                })
-                console.log(results)
-            }
+            imagesFromAlbums = results.reduce((acc: InstagramMedia[], x)=>x ? acc.concat(x) : acc, [])
         }
 
         //merge data

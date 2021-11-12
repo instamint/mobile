@@ -51,6 +51,8 @@ const Home: React.FC<Props> = ({navigation}) => {
         let session: UserSession = {...response.data, username: user.username};
         await storeUserSession(session);
 
+        console.log(response.data)
+
         //Set token 
         setToken(response.data.token)
 

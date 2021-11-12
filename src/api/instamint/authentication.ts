@@ -2,12 +2,12 @@ import axios from './instamintAxios';
 import {User, UserSession, RegisterData} from '../../types';
 import {getFullPath} from '../../helpers/apiHelper';
 
-const LOGIN_PATH = '/api/auth/login';
-const SIGNUP_PATH = '/api/auth/signup';
+const LOGIN_PATH = 'auth/login';
+const SIGNUP_PATH = 'auth/signup';
 
 export const login = async (user: User) => {
   const url = getFullPath(LOGIN_PATH);
-
+  console.log(url)
   const data = {
     userName: user.username,
     password: user.password,

@@ -2,8 +2,8 @@ import axios from './instamintAxios';
 import {MintData, MintResponse, Market} from '../../types';
 import {getFullPath} from '../../helpers/apiHelper';
 
-const MINT_PATH = '/api/nft/mintNFT';
-const GET_MARKET_PATH = '/api/nft/getMarket';
+const MINT_PATH = 'nft/mintNFT';
+const GET_MARKET_PATH = 'nft/getMarket';
 
 export const processMint = async (data: MintData) => {
   const url = getFullPath(MINT_PATH);

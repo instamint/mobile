@@ -1,4 +1,5 @@
-const BASE_URL = 'https://api.instamint.com'
+const BASE_URL = 'http://137.184.26.132:8080'
+const URL_PREFIX = 'api/v1/core'
 const INSTAGRAM_API = 'https://graph.instagram.com'
 const INSTAGRAM_API_VERSION = 'v12.0'
 // const INSTAGRAM_APP_ID = '869575040423605'
@@ -11,6 +12,7 @@ const WEBSITE = "https://app.instamint.com/login"
 
 export {
     BASE_URL,
+    URL_PREFIX,
     INSTAGRAM_API,
     INSTAGRAM_API_VERSION,
     INSTAGRAM_APP_ID,

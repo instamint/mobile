@@ -17,8 +17,8 @@ const LoginForm: React.FC<Props> = (props) => {
 
   //Form initial value
   const initialValues: User = {
-    username: '',
-    password: '',
+    username: __DEV__ ? 'adminuser1' : '',
+    password: __DEV__ ? '12345' : '',
   };
 
   //Validation schema
