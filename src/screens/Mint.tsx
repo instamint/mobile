@@ -25,7 +25,7 @@ const Mint: React.FC<Props> = (props) => {
     const data: MintData = {
       description: formData.description || '',
       instaId: instaId,
-      instaUrl: item.media_url,
+      instaUrl: [item.media_url],
       instaUserName: item.username,
       mediaType: item.media_type,
       name: formData.title,

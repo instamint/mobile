@@ -7,6 +7,7 @@ import { InstagramSession } from "./instagramSession";
 import { MintData } from "./mintData";
 import { MintResponse } from "./mintResponse";
 import { Market } from "./market";
+import { MarketTable } from "./marketTable";
 
 export type {
     User,
@@ -17,5 +18,6 @@ export type {
     InstagramSession,
     MintData,
     MintResponse,
-    Market
+    Market,
+    MarketTable
 }

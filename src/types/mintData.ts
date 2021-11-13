@@ -1,7 +1,7 @@
 export type MintData = {
   description: string;
   instaId: number;
-  instaUrl: string;
+  instaUrl: string[];
   instaUserName: string;
   mediaType: string;
   name: string;
