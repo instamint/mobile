@@ -10,26 +10,26 @@ import { MintForm } from "../components/organisms";
 
 type Props = {
   route: RouteProp<{params: {
-    item: InstagramMedia
+    items: InstagramMedia[]
   }}, 'params'>,
   navigation: NavigationProp<any, string, any, any>;
 };
 
 const Mint: React.FC<Props> = (props) => {
   const { navigation, route } = props
-  const item = route.params.item
+  const items = route.params.items
 
   const onSubmit = async (formData: any) => {
-    const instaId = Number(item.id)
+    const instaId = Number(items[0].id) //Is this OKAY? we are sending one id for a list of IG images
 
     const data: MintData = {
       description: formData.description || '',
       instaId: instaId,
-      instaUrl: [item.media_url],
-      instaUserName: item.username,
-      mediaType: item.media_type,
+      instaUrl: items.map(x => x.media_url),
+      instaUserName: items[0].username,
+      mediaType: items[0].media_type,
       name: formData.title,
-      timestamp: item.timestamp,
+      timestamp: items[0].timestamp,
       title: formData.title,
     }
 

@@ -21,6 +21,7 @@ const Gallery: React.FC<Props> = (props) => {
 
     const [instagramMedia, setInstagramMedia] = useState<InstagramMedia[]>([])
     const [username, setUsername] = useState('')
+    const [showNext, setShowNext] = useState(false)
 
     useEffect(()=>{
         //Get media from instagram
@@ -34,6 +35,10 @@ const Gallery: React.FC<Props> = (props) => {
         }
     }, [username])
 
+    useEffect(()=>{
+      const isItemChecked = instagramMedia.filter(x => x.checked).length > 0 ? true : false
+      setShowNext(isItemChecked)
+  }, [instagramMedia])
 
     const getMedia = async () => {
       try {
@@ -71,33 +76,71 @@ const Gallery: React.FC<Props> = (props) => {
       }
     };
 
+    const navigateToNextScreen = () => {
+      const items = instagramMedia.filter(x => x.checked)
+      navigation.navigate(MINT, {items})
+    };
+
     const onItemPress = (item: InstagramMedia)=>{
-      navigation.navigate(MINT, {item})
+      // navigation.navigate(MINT, {item})
+      setInstagramMedia((prevMedia)=>{
+        const newMedia = prevMedia.map((x)=>({...x, checked: x.id === item.id ? !x.checked : x.checked}))
+        return newMedia
+      })
     }
 
     const renderItem = (item: InstagramMedia) => (
-      <TouchableOpacity style={{width: '33.33%', height: 120, padding: 5}} onPress={()=>onItemPress(item)}>
-          <Image style={{flex: 1}} source={{uri: item.media_url}} />
+      <TouchableOpacity style={styles.item} onPress={() => onItemPress(item)}>
+        <Image
+          style={[styles.image, selectionStyles(item.checked).imageChecked]}
+          source={{uri: item.media_url}}
+        />
       </TouchableOpacity>
     );
  
   return (
     <SafeAreaView style={styles.container}>
-        <Button icon={"logout"} style={{ alignSelf: 'flex-end', margin: 5 }} mode="contained" onPress={logoutInstagram}>
-            Logout of Instagram
+      <Button
+        icon={'logout'}
+        style={styles.button}
+        mode="contained"
+        onPress={logoutInstagram}>
+        Logout of Instagram
+      </Button>
+      <FlatList
+        style={{alignSelf: 'stretch'}}
+        data={instagramMedia}
+        keyExtractor={x => x.id.toString()}
+        renderItem={({item}) => renderItem(item)}
+        numColumns={3}
+      />
+      {showNext && (
+        <Button
+          icon={'arrow-right-bold'}
+          style={styles.button}
+          mode="contained"
+          onPress={navigateToNextScreen}>
+          Next
         </Button>
-        <FlatList style={{ alignSelf: 'stretch' }}
-            data={instagramMedia}
-            keyExtractor={(x)=>x.id.toString()}
-            renderItem={({ item })=> renderItem(item)}
-            numColumns={3}
-        />
+      )}
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start' },
+  container: {flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start'},
+  item: {width: '33.33%', height: 120, padding: 5},
+  image: {flex: 1},
+  button: {alignSelf: 'flex-end', margin: 5}
 });
+
+const selectionStyles = (checked: boolean) =>
+  StyleSheet.create({
+    imageChecked: {
+      opacity: checked ? 0.28 : 1,
+      borderColor: 'blue',
+      borderWidth: checked ? 2 : 0,
+    },
+  });
 
 export default Gallery;

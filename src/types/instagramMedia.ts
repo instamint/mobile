@@ -4,4 +4,5 @@ export type InstagramMedia = {
     media_url: string;
     username: string;
     timestamp: string;
+    checked: boolean;
   }
