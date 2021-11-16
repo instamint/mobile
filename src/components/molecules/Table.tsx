@@ -46,7 +46,6 @@ const Table: React.FC<Props> = props => {
             <DataTable.Row key={index.toString()} onPress={()=>onPressItem ? onPressItem(index) : null}>
               {Object.keys(item).map((key, keyIndex) => (
                 <DataTable.Cell key={`${index}-${keyIndex}`}>
-                  {console.log(item[key])}
                   {item[key]}
                 </DataTable.Cell>
               ))}

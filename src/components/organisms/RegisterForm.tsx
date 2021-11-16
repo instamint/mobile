@@ -4,7 +4,7 @@ import { Button } from 'react-native-paper';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { LabelInputText } from '../molecules';
-import { RegisterData } from '../../types';
+import { RegisterData, User } from '../../types';
 
 type Props = {
   onSubmit: (user: RegisterData) => void,
@@ -12,6 +12,7 @@ type Props = {
 
 const LoginForm: React.FC<Props> = (props) => {
   const { onSubmit } = props
+  const [ loading, setLoading ] = React.useState(false)
 
   //Form initial value
   const initialValues: RegisterData = {
@@ -32,11 +33,17 @@ const LoginForm: React.FC<Props> = (props) => {
       .oneOf([Yup.ref('password'), null], 'Passwords must match')
   });
 
+  const onSubmitForm = async (user: RegisterData)=>{
+    setLoading(true)
+    await onSubmit(user)
+    setLoading(false)
+  }
+
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={LoginSchema}
-      onSubmit={onSubmit}>
+      onSubmit={onSubmitForm}>
       {({handleSubmit, handleBlur, handleChange, values, errors, touched}) => (
         <>
           <LabelInputText
@@ -83,7 +90,7 @@ const LoginForm: React.FC<Props> = (props) => {
           />
 
           <View style={styles.bottonContainer}>
-            <Button icon="login" mode="contained" onPress={handleSubmit}>
+            <Button icon="login" mode="contained" onPress={handleSubmit} loading={loading}>
               Register
             </Button>
           </View>

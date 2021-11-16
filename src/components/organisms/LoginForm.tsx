@@ -14,6 +14,7 @@ type Props = {
 
 const LoginForm: React.FC<Props> = (props) => {
   const { onSubmit, onRegisterPress } = props
+  const [ loading, setLoading ] = React.useState(false)
 
   //Form initial value
   const initialValues: User = {
@@ -27,10 +28,16 @@ const LoginForm: React.FC<Props> = (props) => {
     password: Yup.string().required('*Required'),
   });
 
+  const onSubmitForm = async (user: User)=>{
+    setLoading(true)
+    await onSubmit(user)
+    setLoading(false)
+  }
+
   return <Formik
     initialValues={initialValues}
     validationSchema={LoginSchema}
-    onSubmit={onSubmit}>
+    onSubmit={onSubmitForm}>
     {({
       handleSubmit,
       handleBlur,
@@ -63,7 +70,7 @@ const LoginForm: React.FC<Props> = (props) => {
         />
 
         <View style={styles.bottonContainer}>
-          <Button icon="login" mode="contained" onPress={handleSubmit}>
+          <Button icon="login" mode="contained" onPress={handleSubmit} loading={loading}>
             Login
           </Button>
         </View>

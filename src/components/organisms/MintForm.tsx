@@ -17,6 +17,7 @@ type Props = {
 
 const MintForm: React.FC<Props> = props => {
   const {onSubmit, onCancel} = props;
+  const [ loading, setLoading ] = React.useState(false)
 
   //Form initial value
   const initialValues = {
@@ -29,11 +30,17 @@ const MintForm: React.FC<Props> = props => {
     title: Yup.string().required('*Required'),
   });
 
+  const onSubmitForm = async (mint: Mint)=>{
+    setLoading(true)
+    await onSubmit(mint)
+    setLoading(false)
+  }
+
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={MintSchema}
-      onSubmit={onSubmit}>
+      onSubmit={onSubmitForm}>
       {({handleSubmit, handleBlur, handleChange, values, errors, touched}) => (
         <>
           <LabelInputText
@@ -67,7 +74,9 @@ const MintForm: React.FC<Props> = props => {
             <Button
               mode="contained"
               style={{marginHorizontal: 5}}
-              onPress={handleSubmit}>
+              onPress={handleSubmit}
+              loading={loading}
+              >
               Mint
             </Button>
           </View>
