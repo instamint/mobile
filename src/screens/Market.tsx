@@ -1,17 +1,33 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, StyleSheet, ScrollView, Alert, View} from 'react-native';
+import {SafeAreaView, StyleSheet, ScrollView, Alert, View, RefreshControl} from 'react-native';
+import {NavigationProp} from '@react-navigation/native';
 import {getMarkets} from '../api/instamint/NFT';
-import {MarketTable} from '../types';
+import {MarketTable, Market} from '../types';
 import Table from '../components/molecules/Table';
 import { showErrorAlert } from '../helpers/errorHelper';
 import Loader from "../components/atoms/Loader";
+import { NFT } from "../navigations/screens";
 
 //Table header
-const header = ['Creator', 'Owner', 'NFT', 'Mint Date', 'Vint. Date'];
+// const header = ['Creator', 'Owner', 'NFT', 'Mint Date', 'Vint. Date'];
 
-const MarketScreen = () => {
-  const [markets, setMarkets] = useState<MarketTable[]>([]);
-  const [latest, setLatest] = useState<MarketTable[]>([]);
+type Props = {
+  navigation: NavigationProp<any, string, any, any>;
+};
+
+const header = [
+  {title: 'Creator', field: 'creator'},
+  {title: 'Owner', field: 'owner'},
+  {title: 'NFT', field: 'name'},
+  {title: 'Mint Date', field: 'mintDate'},
+  {title: 'Vint. Date', field: 'vintageDate'},
+];
+
+const MarketScreen:React.FC<Props> = (props) => {
+  const { navigation } = props
+
+  const [markets, setMarkets] = useState<Market[]>([]);
+  const [latest, setLatest] = useState<Market[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -23,22 +39,15 @@ const MarketScreen = () => {
 
     try {
       const response = await getMarkets();
-      const data = response.data.map(x => ({
-        creator: x.creator,
-        owner: x.owner,
-        nft: x.name,
-        mintDate: x.mintDate,
-        vintageDate: x.vintageDate,
-      }));
+      setMarkets(response.data);
 
-      setMarkets(data);
-
-      const sort = (a: MarketTable, b: MarketTable) => {
+      const sort = (a: Market, b: Market) => {
         if (a.mintDate < b.mintDate) return -1;
         if (a.mintDate > b.mintDate) return 1;
         return 0;
       };
-      const sortedData = data.sort(sort);
+
+      const sortedData = response.data.sort(sort);
       setLatest(sortedData);
     } catch (error) {
       showErrorAlert('Market', error);
@@ -48,11 +57,11 @@ const MarketScreen = () => {
   };
 
   const onPressMarketItem = (index: number) => {
-    Alert.alert('INDEX ' + index);
+    navigation.navigate(NFT, {item: markets[index]})
   };
 
   const onPressLatestItem = (index: number) => {
-    Alert.alert('INDEX ' + index);
+    navigation.navigate(NFT, {item: latest[index]})
   };
 
   return (
@@ -63,7 +72,11 @@ const MarketScreen = () => {
             <Loader/>
           </View>
         ) : (
-          <ScrollView onMomentumScrollEnd={loadData}>
+          <ScrollView refreshControl={
+            <RefreshControl refreshing={loading}
+              onRefresh={loadData}
+            />
+          }>
             <Table
               header={header}
               data={markets}

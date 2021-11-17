@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { LOGIN, REGISTER, DRAWER_NAVIGATOR } from "./screens";
+import { LOGIN, REGISTER, DRAWER_NAVIGATOR, NFT } from "./screens";
 import { UserSession } from "../types";
 import { useDispatch, useSelector } from 'react-redux';
 import { storeSessionInMemory } from "../redux/reducers/session";
@@ -11,7 +11,7 @@ import * as instamintSession from "../helpers/instamintSessionHelper";
 //Screens
 import LoginScreen from '../screens/Login';
 import RegisterScreen from '../screens/Register';
-// import TestScreen from "../screens/Test";
+import NFTScreen from "../screens/NFT";
 
 //Navigators
 import HomeDrawerNavigator from './DrawerNavigator';
@@ -42,7 +42,10 @@ const RootStack = () => {
       <Stack.Navigator>
         {/* Authenticated */}
         {userSessionInMemory.token ? (
-          <Stack.Screen name={DRAWER_NAVIGATOR} component={HomeDrawerNavigator} options={{ headerShown: false }}/>
+          <>
+            <Stack.Screen name={DRAWER_NAVIGATOR} component={HomeDrawerNavigator} options={{ headerShown: false, title: 'Home' }}/>
+            <Stack.Screen name={NFT} component={NFTScreen} options={{title: 'NFT'}}/>
+          </>
         ) : (
           <>
             <Stack.Screen name={LOGIN} component={LoginScreen} options={{ headerShown: false }} />

@@ -1,13 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import {DataTable} from 'react-native-paper';
 import TableTitle from './TableTitle';
+import * as utils from '../../helpers/utils';
+
+export type Header = {
+  title: string;
+  field: string;
+  type?: 'date' | 'number';
+};
 
 type Props = {
-  header: string[];
+  header: Header[];
   data: any[];
-  title? : string,
-  // onItemPress?: any
-  onPressItem?: (index: number)=>void
+  title?: string;
+  onPressItem?: (index: number) => void;
 };
 
 const numberOfItemsPerPageList = [4, 8, 12];
@@ -28,25 +34,27 @@ const Table: React.FC<Props> = props => {
 
   return (
     <>
-      {title !== undefined &&
-        <TableTitle>
-          {title}
-        </TableTitle>
-      }
+      {title !== undefined && <TableTitle>{title}</TableTitle>}
       <DataTable>
         <DataTable.Header>
           {header.map((item, index) => (
-            <DataTable.Title key={index.toString()}>{item}</DataTable.Title>
+            <DataTable.Title key={index.toString()}>
+              {item.title}
+            </DataTable.Title>
           ))}
         </DataTable.Header>
 
         {data
           .slice(numberOfItemsPerPage * page, numberOfItemsPerPage * (page + 1))
           .map((item, index) => (
-            <DataTable.Row key={index.toString()} onPress={()=>onPressItem ? onPressItem(index) : null}>
-              {Object.keys(item).map((key, keyIndex) => (
-                <DataTable.Cell key={`${index}-${keyIndex}`}>
-                  {item[key]}
+            <DataTable.Row
+              key={index.toString()}
+              onPress={() => (onPressItem ? onPressItem(index) : null)}>
+              {header.map((element, elementIndex) => (
+                <DataTable.Cell key={`${index}-${elementIndex}`}>
+                  {element.type === 'date'
+                    ? utils.getFormattedDateTime(item[element.field])
+                    : item[element.field]}
                 </DataTable.Cell>
               ))}
             </DataTable.Row>

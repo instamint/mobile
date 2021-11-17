@@ -20,7 +20,7 @@ import MintDoneScreen from '../screens/MintDone';
 
 const Stack = createStackNavigator();
 
-const RootStack = () => {
+const MintStack = () => {
   const dispatch = useDispatch();
   const {instaSession} = useSelector(
     (state: RootState) => state.instagramSession,
@@ -57,4 +57,4 @@ const RootStack = () => {
   );
 };
 
-export default RootStack;
+export default MintStack;

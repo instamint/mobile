@@ -10,6 +10,7 @@ export const DASHBOARD = "dashboard"
 export const MARKET = "market"
 export const PORTFOLIO = "portfolio"
 export const ADMIN = "admin"
+export const NFT = "nft"
 
 //Mint
 export const MINT_STACK = "mintStack"
