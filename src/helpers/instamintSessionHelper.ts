@@ -2,7 +2,6 @@ import { store } from "../redux/store";
 import * as storage from '../storage';
 import { UserSession } from '../types';
 import { storeSessionInMemory, logoutUser } from "../redux/reducers/session";
-import { setToken } from "../api/instamint/instamintAxios";
 
 export const clear = async () => {
   try {
@@ -10,9 +9,6 @@ export const clear = async () => {
     await storage.remove('session');
     //Clean Redux
     store.dispatch(logoutUser())
-
-    //
-    // setToken(null)
   } catch (error) {
     console.log(error);
   }

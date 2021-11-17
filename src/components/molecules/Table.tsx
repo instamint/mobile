@@ -49,7 +49,7 @@ const Table: React.FC<Props> = props => {
           .map((item, index) => (
             <DataTable.Row
               key={index.toString()}
-              onPress={() => (onPressItem ? onPressItem(index) : null)}>
+              onPress={() => (onPressItem ? onPressItem((numberOfItemsPerPage * page) + index) : null)}>
               {header.map((element, elementIndex) => (
                 <DataTable.Cell key={`${index}-${elementIndex}`}>
                   {element.type === 'date'

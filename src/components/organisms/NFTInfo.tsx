@@ -2,14 +2,14 @@ import React from 'react';
 import {StyleSheet, View, Image} from 'react-native';
 import {Button, Text} from 'react-native-paper';
 import Title from '../atoms/Title';
-import {BASE_URL} from '../../configuration';
+import * as utils from "../../helpers/utils";
 
 type Data = {
   title: string;
   description: string;
   mintDate: string;
   vintageDate: string;
-  imageUrl: string;
+  imageUrl?: string;
 };
 
 type Props = {
@@ -24,7 +24,7 @@ const NFTInfo: React.FC<Props> = props => {
       <View style={styles.container}>
         <View>
           <Image
-            style={{width: 120, height: 120}}
+            style={styles.image}
             source={{
               uri: data.imageUrl,
             }}
@@ -38,13 +38,13 @@ const NFTInfo: React.FC<Props> = props => {
           <View style={styles.dateContainer}>
             <View style={[styles.dateBox, styles.separator]}>
               <Text style={styles.dateText}>
-                {data.mintDate ? data.mintDate : 'No date found'}
+                {data.mintDate ? utils.getFormattedDateTime(data.mintDate) : 'No date found'}
               </Text>
               <Text style={styles.dateLabel}>Mint. Date</Text>
             </View>
             <View style={styles.dateBox}>
               <Text style={styles.dateText}>
-                {data.vintageDate ? data.vintageDate : 'No date found'}
+                {data.vintageDate ? utils.getFormattedDateTime(data.mintDate) : 'No date found'}
               </Text>
               <Text style={styles.dateLabel}>Vint. Date</Text>
             </View>
@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
   dateText: {color: '#231F20', fontWeight: 'bold'},
   dateLabel: {color: '#231F20'},
   buttonContainer: {marginVertical: 10},
+  image: {width: 120, height: 120, borderRadius: 5, resizeMode: 'contain', marginRight: 5}
 });
 
 export default NFTInfo;

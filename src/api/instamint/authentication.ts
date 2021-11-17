@@ -7,7 +7,7 @@ const SIGNUP_PATH = 'auth/signup';
 
 export const login = async (user: User) => {
   const url = getFullPath(LOGIN_PATH);
-  console.log(url)
+
   const data = {
     userName: user.username,
     password: user.password,
@@ -17,7 +17,7 @@ export const login = async (user: User) => {
   return response;
 };
 
-export const signup = async (user: RegisterData ) => {
+export const signup = async (user: RegisterData) => {
   const url = getFullPath(SIGNUP_PATH);
 
   const data = {

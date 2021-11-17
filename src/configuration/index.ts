@@ -1,5 +1,6 @@
 const BASE_URL = 'http://137.184.26.132:8080'
 const URL_PREFIX = 'api/v1/core'
+const STORAGE_PATH = 'api/nft-web-store'
 const INSTAGRAM_API = 'https://graph.instagram.com'
 const INSTAGRAM_API_VERSION = 'v12.0'
 // const INSTAGRAM_APP_ID = '869575040423605'
@@ -17,5 +18,6 @@ export {
     INSTAGRAM_API_VERSION,
     INSTAGRAM_APP_ID,
     INSTAGRAM_SECRET_KEY,
-    WEBSITE
+    WEBSITE,
+    STORAGE_PATH
 }

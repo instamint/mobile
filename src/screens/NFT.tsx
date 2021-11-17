@@ -16,6 +16,7 @@ import {NFTTrades} from '../types/NFTTrades';
 import {showErrorAlert} from '../helpers/errorHelper';
 import NFTInfo from '../components/organisms/NFTInfo';
 import Divider from '../components/atoms/Divider';
+import * as utils from "../helpers/utils";
 
 type Props = {
   route: RouteProp<
@@ -51,7 +52,7 @@ const Mint: React.FC<Props> = props => {
   const NFTInfoData = {
     title: item.title,
     description: item.description,
-    imageUrl: `${BASE_URL}/${item.imageWebURL}`,
+    imageUrl: utils.getResourceURL(item.imageWebURL),
     mintDate: item.mintDate,
     vintageDate: item.vintageDate,
   };
