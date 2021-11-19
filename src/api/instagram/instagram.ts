@@ -1,7 +1,7 @@
 import axios from "axios";
 import { InstagramMedia, InstagramMediaResponse, InstagramSession } from "../../types";
 import * as storage from "../../storage";
-import { INSTAGRAM_API, INSTAGRAM_API_VERSION } from "../../configuration";
+import Config from "../../configuration";
 
 const FIELDS = 'id,media_type,media_url,username,timestamp'
 
@@ -15,7 +15,7 @@ export const getImages = async () => {
     const instagramSession:InstagramSession  = JSON.parse(instagramSessionString)
     token = instagramSession.token
 
-    const mediaURL = `${INSTAGRAM_API}/${INSTAGRAM_API_VERSION}/${instagramSession.userId}/media?fields=${FIELDS}&access_token=${token}`
+    const mediaURL = `${Config.INSTAGRAM_API}/${Config.INSTAGRAM_API_VERSION}/${instagramSession.userId}/media?fields=${FIELDS}&access_token=${token}`
     const response = await axios.get<InstagramMediaResponse>(mediaURL)
     const dataResponse = response.data
 
@@ -40,7 +40,7 @@ export const getImages = async () => {
 }
 
 const getMediaFromParent = async (parent: string): Promise<InstagramMedia[] | undefined> => {
-    const childrenMediaURL = `${INSTAGRAM_API}/${parent}/children?fields=${FIELDS}&access_token=${token}`
+    const childrenMediaURL = `${Config.INSTAGRAM_API}/${parent}/children?fields=${FIELDS}&access_token=${token}`
     const response = await axios.get<InstagramMediaResponse>(childrenMediaURL)
     const dataResponse = response.data
 

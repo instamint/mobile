@@ -9,7 +9,6 @@ import {NavigationProp, RouteProp} from '@react-navigation/native';
 import {Market} from '../types';
 import {Text} from 'react-native-paper';
 import Table, {Header} from '../components/molecules/Table';
-import {BASE_URL} from '../configuration';
 import {getBidAskHistory, getTrades} from '../api/instamint/NFT';
 import {NFTBidHistory} from '../types/NFTBidHistory';
 import {NFTTrades} from '../types/NFTTrades';

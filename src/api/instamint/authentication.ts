@@ -13,6 +13,8 @@ export const login = async (user: User) => {
     password: user.password,
   };
 
+  console.log(url)
+
   const response = await axios.post<UserSession>(url, data);
   return response;
 };

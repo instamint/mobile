@@ -1,5 +1,5 @@
-import { BASE_URL, URL_PREFIX } from "../configuration";
+import Config from "../configuration";
 
 export const getFullPath = (path: string)=>{
-    return `${BASE_URL}/${URL_PREFIX}/${path}`
+    return `${Config.BASE_URL}/${Config.URL_PREFIX}/${path}`
 }

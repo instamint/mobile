@@ -5,7 +5,7 @@ import InstagramLogin from 'react-native-instagram-login';
 import { connect } from "react-redux";
 import * as instagramSession from "../helpers/instagramSessionHelper";
 import { storeInstagramSessionInMemory } from "../redux/reducers/instagramSession";
-import { INSTAGRAM_APP_ID, INSTAGRAM_SECRET_KEY, WEBSITE } from "../configuration";
+import Config from "../configuration";
 
 class App extends Component {
   constructor(props) {
@@ -46,9 +46,9 @@ class App extends Component {
 
         <InstagramLogin
           ref={ref => (this.instagramLogin = ref)}
-          appId={INSTAGRAM_APP_ID}
-          appSecret={INSTAGRAM_SECRET_KEY}
-          redirectUrl={WEBSITE}
+          appId={Config.INSTAGRAM_APP_ID}
+          appSecret={Config.INSTAGRAM_SECRET_KEY}
+          redirectUrl={Config.WEBSITE}
           scopes={['user_profile', 'user_media']}
           onLoginSuccess={this.setIgToken}
           onLoginFailure={data => this.onLoginError(data)}
