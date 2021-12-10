@@ -26,7 +26,10 @@ const Register: React.FC<Props> = ({navigation}) => {
     try {
       //request signup
       const response = await signup(user);
-      navigation.goBack()
+      Alert.alert('Registration', 'User created successfully', [
+        {text: 'OK', onPress: () => navigation.goBack()},
+      ]);
+      
     } catch (error) {
       showErrorAlert(error)
     }
